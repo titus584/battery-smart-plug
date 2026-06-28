@@ -1,0 +1,10 @@
+# Sensitive config
+.env
+
+# Runtime state
+plug_state.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
