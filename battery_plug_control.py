@@ -16,6 +16,15 @@ import sys, os, io, json, time, subprocess, psutil
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
 
+# === Load .env file (if exists) ===
+_env_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+if os.path.exists(_env_file):
+    for _line in open(_env_file, encoding="utf-8"):
+        _line = _line.strip()
+        if _line and not _line.startswith("#") and "=" in _line:
+            _k, _v = _line.split("=", 1)
+            os.environ.setdefault(_k.strip(), _v.strip())
+
 # === Config from env ===
 def env(key, required=True, default=None):
     val = os.environ.get(key, default)
@@ -27,7 +36,7 @@ def env(key, required=True, default=None):
 DEVICE_ID     = env("XIAOMI_DEVICE_ID")
 OWNER_ID      = env("XIAOMI_OWNER_ID")
 SSECURITY     = env("XIAOMI_SSECURITY")
-SERVICE_TOKEN = env("XIAOMI_SERVICE_TOKEN")
+SERVICE_TOKEN = ***"XIAOMI_SERVICE_TOKEN")
 REQUIRED_WIFI = env("WIFI_SSID", default="RWifi")
 FEISHU_OPEN_ID = env("FEISHU_OPEN_ID", required=False, default="")
 HIGH_BATTERY  = int(env("HIGH_BATTERY", default="90"))
@@ -132,7 +141,7 @@ print(f"   Plug: {'ON' if plug else 'OFF'}")
 print("\n[4] Decision...")
 prev = load_state()
 prev_plug = prev.get("plug_on")
-action = None  # "start_charging" | "stop_charging" | None
+action = None
 
 if bat >= HIGH_BATTERY and plug:
     target = False
